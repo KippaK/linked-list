@@ -63,7 +63,7 @@ T& Linked_list<T>::at(size_t idx) const
 	if (next == nullptr) {
 		return NULL;
 	}
-	return next.at(idx - 1);
+	return next->at(idx - 1);
 }
 
 template <typename T>
@@ -78,7 +78,7 @@ T& Linked_list<T>::back() const
 	if (next == nullptr) {
 		return data;
 	}
-	return next.back();
+	return next->back();
 }
 
 template <typename T>
@@ -88,18 +88,17 @@ void Linked_list<T>::push_back(T aData)
 		next = new Linked_list<T>(aData);
 		return;
 	}
-	next.push_back(aData);
+	next->push_back(aData);
 }
 
 template <typename T>
 void Linked_list<T>::insert(T aData, size_t idx)
 {
 	if (idx > 0) {
-		insert(aData, idx - 1);
+		next->insert(aData, idx - 1);
 		return;
 	}
-	Linked_list<T>* old_next = next;
-	next = new Linked_list<T>(aData, old_next); 
+	next = new Linked_list<T>(aData, next); 
 }
 
 template <typename T>
@@ -111,20 +110,26 @@ void Linked_list<T>::pop(size_t idx)
 	}
 	if (idx == 0) {
 		Linked_list<T>* old_next = next;
-		data = next.data;
-		next = next.next;
-		old_next.next = nullptr;
+		data = next->data;
+		next = next->next;
+		old_next->next = nullptr;
 		delete old_next;
 		return;
 	}
-	if (idx == 1) {
-		Linked_list<T>* old_next = next;
-		next = next.next;
-		old_next.next = nullptr;
-		delete old_next;
+	if (idx > 1) {
+		next->pop(idx - 1);
 		return;
 	}
-	pop(idx - 1);
+	if (next->next == nullptr) {
+		delete next;
+		next = nullptr;
+		return;
+	}
+	Linked_list<T>* old_next = next;
+	next = next->next;
+	old_next->next = nullptr;
+	delete old_next;
+	return;
 }
 
 template <typename T>
@@ -139,7 +144,7 @@ size_t Linked_list<T>::size(size_t count) const
 	if (next == nullptr) {
 		return count;
 	}
-	return size(count + 1);
+	return next->size(count + 1);
 }
 
 template <typename T>
@@ -151,5 +156,5 @@ size_t Linked_list<T>::size() const
 	if (next == nullptr) {
 		return 1;
 	}
-	return size(2);
+	return next->size(2);
 }
