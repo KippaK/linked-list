@@ -136,11 +136,8 @@ bool Linked_list<T>::empty() const
 template <typename T>
 size_t Linked_list<T>::size(size_t count) const
 {
-	if (data == NULL && next == nullptr) {
-		return count;
-	}
 	if (next == nullptr) {
-		return count + 1;
+		return count;
 	}
 	return size(count + 1);
 }
@@ -154,5 +151,5 @@ size_t Linked_list<T>::size() const
 	if (next == nullptr) {
 		return 1;
 	}
-	return size(1);
+	return size(2);
 }
