@@ -20,7 +20,6 @@ public:
 	size_t size() const;
 
 private:
-	void push_back(T aData, size_t idx);
 	size_t size(size_t count) const;
 
 protected:
@@ -83,19 +82,13 @@ T& Linked_list<T>::back() const
 }
 
 template <typename T>
-void Linked_list<T>::push_back(T aData, size_t idx)
+void Linked_list<T>::push_back(T aData)
 {
 	if (next == nullptr) {
 		next = new Linked_list<T>(aData);
 		return;
 	}
-	push_back(aData, idx + 1);
-}
-
-template <typename T>
-void Linked_list<T>::push_back(T aData)
-{
-	push_back(aData, 0);
+	next.push_back(aData);
 }
 
 template <typename T>
