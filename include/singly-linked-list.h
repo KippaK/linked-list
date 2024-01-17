@@ -94,7 +94,13 @@ void Linked_list<T>::push_back(T aData)
 template <typename T>
 void Linked_list<T>::insert(T aData, size_t idx)
 {
-	if (idx > 0) {
+	if (idx == 0) {
+		Linked_list<T>* node_cpy = new Linked_list<T>(data, next);
+		next = node_cpy;
+		data = aData;
+		return;
+	}
+	if (idx > 1) {
 		next->insert(aData, idx - 1);
 		return;
 	}
